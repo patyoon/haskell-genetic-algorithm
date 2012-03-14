@@ -1,0 +1,77 @@
+After you demonstrate the functionality of your project, expect to give answers to the following questions:
+
+What are the main modules of your program? Why did you divide them up in this way?
+
+The main modules of our program are functions concerning the way crossovers are done, the way mutations are done, and the mechanisms by which 
+populations evolve toward the target. Crossover functions include xoverGetOne, which produces a single child offspring by selecting alternatively 
+from two parents split by a random pivot, xoverGetTwo, which makes two children from the single pivot, xoverTwoPivot, which makes two 
+children from alternative selection between two pivots, and finally xoverRandomPick, which makes two children from alternatively selecting among 
+multiple random crossover points. These attempt to expedite solution convergence by mixing and matching the more correct portions of candidates. 
+Mutation functions are mutate, which puts a random character in a random position, and mutateSwap, which swaps the characters from two randomly 
+chosen positions in the gene. These functions are responsible for generating movement in the solution space. Finally, our last set of functions are 
+fitness, genRandom, selParents, randomPop, tournaSelect, fitPropSelect, evolveOne, evolve, repeatWhile, and terminate. All of these functions serve 
+the purpose of traversing the gradient toward the solution (which has maximum fitness). This module sets up populations, performs crossovers, 
+preserves genes close to solution, and iterates the process through multiple generations. We chose to divide up the modules in such fashion because 
+each is independently defined and executed in sequence per generation. That is, crossovers are done in a self-contained step, mutations are done in 
+a self-contained step, and the final module consists of performing the functions in the other two modules, evaluating fitness, and pushing the 
+most fit strings along in iteration.
+
+
+Are there any parts of the code that you are particularly proud of? Where did you spend the most time polishing your implementation? 
+What did it look like before? (In preparation for this question, you may want to have the the old version in comments available for comparison.)
+
+We are particularly proud of our crossover functions and the fitness proportionate selection. The crossover functions cleanly perform 
+alternative selection from the parents by combining the take and drop functions, which is an effective way of parsing chunks reminiscent 
+of piping together the modular head and tail functions in unix operating systems to make windowed selections on file contents. 
+Additionally, the fitness proportionate selection is an interesting use of randomization in choosing members to continue to successive 
+generations. We spent the most time polishing the breakdown of the code into separate files to facilitate organization and to make use
+of our modular organization.
+
+
+Was there any part of your project that you had to scrap and redesign? What didn't work the first time? What was the hardest part to get correct? Why?
+
+We initially implemented the project with default choices for our option switches for simplicity. However, extending the program to use
+our options for selecting the types of crossover and mutation was difficult and cumbersome, with many of the options simply not working
+on first implementation. [Add Why]
+
+
+What sort of testing did you do to verify the correctness of your code? (Unit tests, quickcheck properties, etc.)
+
+We implemented a number of quickcheck properties for the crossover functions, mutate functions, and the genRandom and randomPop functions. 
+For the crossover functions, our QuickChecks mostly consisted of checking for correct lengths, making sure all characters in the children 
+were from the parents, and that the children could be reconstructed into their parents. For the mutate functions, we checked for correct lengths
+between the original and mutated strings as well as making sure the number of differences was at most one in random character mutation and zero in
+swap mutation. For genRandom, we made sure all characters chosen were valid, the length was the same as the target, and the fitness was greater than 
+zero. Finally, for the randomPop function, we implemented a quickcheck that makes sure the size of the population is the same as what is stated in its info,
+and that it is ordered by fitness. Additionally, we used unit tests to verify the correctness of the fitness function.
+
+
+What parts of your project correspond to something that we talked about in class?
+
+We made extensive use of QuickCheck, something discussed in class at length. We made use of custom data structures including Flag, Chrom, Pop, and PopInfo. 
+Monads were used throughout, mostly in conjunction with the do notation. We made heavy use of MonadRandom and used its Rand monad construct. Higher order 
+functions foldr and map were explicitly used, along with some use of the Maybe monad when findIndex was called. These were used throughout the project.
+
+
+If you reimplemented this project in another language, what language would you choose? What would be easier? What would be more difficult?
+
+We would choose python for implementation of the project in another language. For one, IO with user parameters would be significantly easier, which was
+a headache implementing in Haskell. Additionally, we would find it easier to run the evolve function, as the imperative style is suited for looping functions.
+Conversely, performing crossovers would be more difficult in python, as we would have to pass around pivots to objects and deal with creating new chromosomes
+and inserting them into the population.
+
+
+How difficult would it be to modify/extend your program to do something else? What is something you would like your program to do but it doesn't do yet? How would you do this extensions?
+
+Many of the functions we wrote were very much geared toward dealing with character lists, so modifying it for some other type of gene would be difficult.
+If any modification were possible, it would be to allow genes to be lists of some other data type and its fitness determined by pairwise comparison with an 
+ordered target. Our program would be well augmented by the ability to plot best candidate fitness as a function of generation to show the progress of evolution.
+This would inform the user as to the suitability of the parameters he has chosen, especially as a predictive factor for larger strings.
+
+
+What did you learn from this project?
+
+We learned how to implement randomness in Haskell on a large scale and on multiple levels. We also learned how to piece together self-contained functions
+to achieve our final result. While this is a key part of Haskell, we got extensive practice with this because of the way a genetic algorithm can be
+broken down into component functions applicable to each member of the population. Finally, we saw how to implement an iterative process in functional
+programming, something that the paradigm discourages and makes difficult, especially for object-oriented users.

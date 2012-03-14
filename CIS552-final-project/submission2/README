@@ -1,0 +1,50 @@
+After you demonstrate the functionality of your project, expect to give answers to the following questions:
+
+What are the main modules of your program? Why did you divide them up in this way?
+
+The main modules of our program are functions concerning the way crossovers are done, the way mutations are done, and the mechanisms by which populations evolve toward the target. Crossover functions include 
+xoverGetOne, which produces a single child offspring by selecting alternatively from two parents split by a random pivot, xoverGetTwo, which makes two children from the single pivot, xoverTwoPivot, which makes two 
+children from alternative selection between two pivots, and finally xoverRandomPick, which makes two children from alternatively selecting among multiple random crossover points. These attempt to expedite solution 
+convergence by mixing and matching the more correct portions of candidates. Mutation functions are mutate, which puts a random character in a random position, and mutateSwap, which swaps the characters from two randomly 
+chosen positions in the gene. These functions are responsible for generating movement in the solution space. Finally, our last set of functions are fitness, genRandom, selParents, randomPop, tournaSelect, fitPropSelect, 
+evolveOne, evolve, repeatWhile, and terminate. All of these functions serve the purpose of traversing the gradient toward the solution (which has maximum fitness). This module sets up populations, performs crossovers, 
+preserves genes close to solution, and iterates the process through multiple generations. We chose to divide up the modules in such fashion because each is independently defined and executed in sequence per generation. 
+That is, crossovers are done in a self-contained step, mutations are done in a self-contained step, and the final module consists of performing the functions in the other two modules, evaluating fitness, and pushing the 
+most fit strings along in iteration.
+
+
+
+Are there any parts of the code that you are particularly proud of? Where did you spend the most time polishing your implementation? What did it look like before? (In preparation for this question, you may want to have the the old version in comments available for comparison.)
+
+We are particularly proud of our crossover functions and the fitness proportionate selection. The crossover functions cleanly perform alternative selection from the parents by combining the take and drop functions,
+which is an effective way of parsing chunks reminiscent of piping together the modular head and tail functions in unix operating systems to make windowed selections on file contents. Additionally, the fitness 
+proportionate selection is an interesting use of randomization in choosing members to continue to successive generations. We spent the most time polishing 
+
+
+
+Was there any part of your project that you had to scrap and redesign? What didn't work the first time? What was the hardest part to get correct? Why?
+
+
+
+What sort of testing did you do to verify the correctness of your code? (Unit tests, quickcheck properties, etc.)
+
+We implemented a number of quickcheck properties for the crossover functions, mutate functions, and the genRandom and randomPop functions. Additionally, we used unit tests to verify the correctness of the fitness 
+function.
+
+
+
+What parts of your project correspond to something that we talked about in class?
+
+We made extensive use of QuickCheck, something discussed in class at length. We made use of custom data structures including Flag, Chrom, Pop, and PopInfo. Monads were used, mostly in conjunction with the do notation, 
+and higher order functions foldr and map were explicitly used, along with the function concatenation syntax '.' These were used throughout the project.
+
+
+
+If you reimplemented this project in another language, what language would you choose? What would be easier? What would be more difficult?
+
+We would choose python for implementation of the project in another language. The object oriented and imperative paradigm would facilitate structuring genes within populations, letting us store the fitness of each 
+string within the object. Additionally, mutation by swapping would be much more concisely implemented. Conversely, 
+
+How difficult would it be to modify/extend your program to do something else? What is something you would like your program to do but it doesn't do yet? How would you do this extensions?
+
+What did you learn from this project?
